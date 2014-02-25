@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml;
-using System.Xml.Serialization;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace GenClass
 {
@@ -22,30 +23,51 @@ namespace GenClass
 
         private void Home_Load(object sender, EventArgs e)
         {
-
+            loadData();
         }
 
-        private void saveDataToolStripMenuItem_Click(object sender, EventArgs e)
+        private void FileMenu_click(object sender, EventArgs e)
         {
-            MessageBox.Show(sender.)
-            if(sender.Equals(saveToolStripButton) || sender.Equals(SaveDataMenuItem)){
-                MessageBox.Show("Save.", "Data has been backed up to hard disk.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            ToolStripMenuItem clicked = (ToolStripMenuItem)sender;
+            if (clicked.Equals(saveDataMenuItem))
+            {
+                saveData();
+                MessageBox.Show("Save.", "Data has been backed up to hard disk.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-
         }
 
-        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {   
-                //saveData();
+        private void toolStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            Console.Write("\n" + e.ClickedItem);
+            if (e.ClickedItem.Equals(saveToolStripButton))
+            {
+                saveData();
+                MessageBox.Show("Save.", "Data has been backed up to hard disk.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
+
+       
 
         public void loadData()
         {
-            if (File.Exists("songs.xml"))
+            if (File.Exists("songObject.dat"))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(SortedList<String, Song>));
-                FileStream file = new FileStream("songObject.xml", FileMode.Open);
-                Song.songs = (SortedList<String, Song>)serializer.Deserialize(file);
+                FileStream file = new FileStream("songObject.dat", FileMode.Open);
+                BinaryFormatter bf = new BinaryFormatter();
+                try 
+                {
+                    List<Song> lst = (List<Song>)bf.Deserialize(file);
+                    lst = null;
+                }
+                catch (SerializationException e)
+                {
+                    Console.WriteLine("Failed to serialize. Reason: " + e.Message);
+                    throw;
+                }
+                finally
+                {
+                    file.Close();
+                }
             }
             else
             {
@@ -137,16 +159,21 @@ namespace GenClass
 
         public void saveData()
         {
+            FileStream file = new FileStream("songObject.dat", FileMode.OpenOrCreate);
+            BinaryFormatter bf = new BinaryFormatter();
             try
             {
-                XmlSerializer mySerializer = new XmlSerializer(typeof(List<Song>));
-                StreamWriter myWriter = new StreamWriter("songObject.xml");
-                mySerializer.Serialize(myWriter, Song.songs);
+                List<Song> lst = Song.toList();
+                bf.Serialize(file,lst);
             }
-            catch (Exception ex)
+            catch (SerializationException e)
             {
-                //Log exception here
-                MessageBox.Show(ex.ToString(), "Please Retry.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.WriteLine("Failed to serialize. Reason: " + e.Message);
+                throw;
+            }
+            finally
+            {
+                file.Close();
             }
         }
     }

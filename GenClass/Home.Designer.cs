@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
             this.Toolbar = new System.Windows.Forms.ToolStrip();
+            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.cutToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -41,15 +41,16 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.FileMenuButton = new System.Windows.Forms.ToolStripDropDownButton();
-            this.SaveDataMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveDataMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Toolbar.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Toolbar
             // 
             this.Toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FileMenuButton,
             this.saveToolStripButton,
             this.newToolStripButton,
             this.openToolStripButton,
@@ -61,12 +62,21 @@
             this.toolStripSeparator1,
             this.helpToolStripButton,
             this.toolStripSeparator2});
-            this.Toolbar.Location = new System.Drawing.Point(0, 0);
+            this.Toolbar.Location = new System.Drawing.Point(0, 24);
             this.Toolbar.Name = "Toolbar";
             this.Toolbar.Size = new System.Drawing.Size(1152, 25);
             this.Toolbar.TabIndex = 0;
             this.Toolbar.Text = "toolStrip1";
-            this.Toolbar.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStrip1_ItemClicked);
+            this.Toolbar.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStrip_ItemClicked);
+            // 
+            // saveToolStripButton
+            // 
+            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
+            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripButton.Name = "saveToolStripButton";
+            this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.saveToolStripButton.Text = "&Save";
             // 
             // newToolStripButton
             // 
@@ -85,15 +95,6 @@
             this.openToolStripButton.Name = "openToolStripButton";
             this.openToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.openToolStripButton.Text = "&Open";
-            // 
-            // saveToolStripButton
-            // 
-            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
-            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveToolStripButton.Name = "saveToolStripButton";
-            this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.saveToolStripButton.Text = "&Save";
             // 
             // printToolStripButton
             // 
@@ -155,23 +156,32 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
-            // FileMenuButton
+            // menuStrip1
             // 
-            this.FileMenuButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FileMenuButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.SaveDataMenuItem});
-            this.FileMenuButton.Image = ((System.Drawing.Image)(resources.GetObject("FileMenuButton.Image")));
-            this.FileMenuButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FileMenuButton.Name = "FileMenuButton";
-            this.FileMenuButton.Size = new System.Drawing.Size(38, 22);
-            this.FileMenuButton.Text = "File";
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileMenu});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1152, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // SaveDataMenuItem
+            // fileMenu
             // 
-            this.SaveDataMenuItem.Name = "SaveDataMenuItem";
-            this.SaveDataMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.SaveDataMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.SaveDataMenuItem.Text = "Save Data";
+            this.fileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveDataMenuItem});
+            this.fileMenu.Name = "fileMenu";
+            this.fileMenu.Size = new System.Drawing.Size(37, 20);
+            this.fileMenu.Text = "File";
+            this.fileMenu.Click += new System.EventHandler(this.FileMenu_click);
+            // 
+            // saveDataMenuItem
+            // 
+            this.saveDataMenuItem.Name = "saveDataMenuItem";
+            this.saveDataMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveDataMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.saveDataMenuItem.Text = "Save Data";
+            this.saveDataMenuItem.Click += new System.EventHandler(this.FileMenu_click);
             // 
             // Home
             // 
@@ -179,11 +189,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1152, 652);
             this.Controls.Add(this.Toolbar);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Home";
             this.Text = "GenClass";
             this.Load += new System.EventHandler(this.Home_Load);
             this.Toolbar.ResumeLayout(false);
             this.Toolbar.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -202,9 +216,10 @@
         private System.Windows.Forms.ToolStripButton pasteToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
-        private System.Windows.Forms.ToolStripDropDownButton FileMenuButton;
-        private System.Windows.Forms.ToolStripMenuItem SaveDataMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileMenu;
+        private System.Windows.Forms.ToolStripMenuItem saveDataMenuItem;
 
     }
 }

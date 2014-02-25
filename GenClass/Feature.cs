@@ -11,7 +11,7 @@ namespace GenClass
     [Serializable]
     class Feature : IComparable, ISerializable
     {
-        public static SortedList<String, Feature> featureList = new SortedList<String, Feature>();
+        public static SortedDictionary<String, Feature> featureList = new SortedDictionary<String, Feature>();
         private String name;
         private List<float> values = new List<float>();
         private String originatedFilename;
@@ -20,7 +20,7 @@ namespace GenClass
         {
             this.name = inName;
             this.originatedFilename = inFilename;
-            Feature.featureList.Add(this.name, this);
+            Feature.featureList.Add(this.name + this.originatedFilename, this);
         }
 
 
