@@ -18,9 +18,9 @@ namespace GenClass
 
         public Feature(String inName, String inFilename)
         {
-            name = inName;
-            originatedFilename = inFilename;
-            featureList.Add(this.name, this);
+            this.name = inName;
+            this.originatedFilename = inFilename;
+            Feature.featureList.Add(this.name, this);
         }
 
 
@@ -31,7 +31,7 @@ namespace GenClass
 
         public String getName()
         {
-            return name;
+            return this.name;
         }
 
         public void setOriginatedFilename(String originatedFilename)
@@ -41,42 +41,55 @@ namespace GenClass
 
         public String getOriginatedFilename()
         {
-            return originatedFilename;
+            return this.originatedFilename;
         }
 
         public List<float> getValues()
         {
-            return values;
+            return this.values;
         }
 
         public void addValue(float newValue)
         {
-            values.Add(newValue);
+            this.values.Add(newValue);
         }
 
-        public int CompareTo(Feature inFeature)
+        public int CompareTo(Object obj)
         {
-            return name.CompareTo(inFeature.ToString());
+            if (obj.Equals(null))
+            {
+                return 1;
+            }
+            Feature otherFeature = obj as Feature;
+            if (otherFeature != null)
+            {
+                return String.Compare(this.name,otherFeature.getName());
+            }
+            else
+            {
+                throw new ArgumentException("Object is not a Feature");
+            }
         }
 
-        public String ToString()
+        public override String ToString()
         {
-            return name;
+            return this.name;
         }
 
         protected Feature(SerializationInfo info, StreamingContext context)
         {
-            name = info.GetString("name");
-            values = (List<float>)info.GetValue("values", values.GetType());
-            originatedFilename = info.GetString("filename");
+            this.name = info.GetString("name");
+            this.values = (List<float>)info.GetValue("values", values.GetType());
+            this.originatedFilename = info.GetString("filename");
+            Feature.featureList.Add(this.name,this);
         }
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("name", name);
-            info.AddValue("values", values);
-            info.AddValue("filename", originatedFilename);
+            info.AddValue("name", this.name);
+            info.AddValue("values", this.values);
+            info.AddValue("filename", this.originatedFilename);
         }
     }
 }
