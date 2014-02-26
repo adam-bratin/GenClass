@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
@@ -11,22 +10,19 @@ namespace GenClass
     [Serializable]
     class Feature : IComparable, ISerializable
     {
-        public static SortedDictionary<String, Feature> featureList = new SortedDictionary<String, Feature>();
         private String name;
-        private List<float> values = new List<float>();
         private String originatedFilename;
+        private List<float> values = new List<float>();
 
         public Feature(String inName, String inFilename)
         {
             this.name = inName;
             this.originatedFilename = inFilename;
-            Feature.featureList.Add(this.name + this.originatedFilename, this);
         }
 
-
-        public void setName(String name)
+        public void setName(String inName)
         {
-            this.name = name;
+            this.name = inName;
         }
 
         public String getName()
@@ -34,9 +30,9 @@ namespace GenClass
             return this.name;
         }
 
-        public void setOriginatedFilename(String originatedFilename)
+        public void setOriginatedFilename(String inOriginatedFilename)
         {
-            this.originatedFilename = originatedFilename;
+            this.originatedFilename = inOriginatedFilename;
         }
 
         public String getOriginatedFilename()
@@ -81,7 +77,6 @@ namespace GenClass
             this.name = info.GetString("name");
             this.values = (List<float>)info.GetValue("values", values.GetType());
             this.originatedFilename = info.GetString("filename");
-            Feature.featureList.Add(this.name,this);
         }
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
 

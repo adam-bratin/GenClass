@@ -11,6 +11,7 @@ using System.IO;
 using System.Xml;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Data;
 
 namespace GenClass
 {
@@ -23,60 +24,50 @@ namespace GenClass
 
         private void Home_Load(object sender, EventArgs e)
         {
-            loadData();
         }
 
         private void FileMenu_click(object sender, EventArgs e)
         {
             ToolStripMenuItem clicked = (ToolStripMenuItem)sender;
-            if (clicked.Equals(saveDataMenuItem))
+            if (clicked.Equals(FileSaveDataMenuItem))
             {
                 saveData();
-                MessageBox.Show("Save.", "Data has been backed up to hard disk.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (clicked.Equals(FileLoadDataMenuItem))
+            {
+                loadData();
+                
             }
         }
 
-        private void toolStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        private void FileNewMenu_click(object sender, EventArgs e)
         {
-            Console.Write("\n" + e.ClickedItem);
-            if (e.ClickedItem.Equals(saveToolStripButton))
+            ToolStripMenuItem clicked = (ToolStripMenuItem)sender;
+            if(clicked.Equals(FileNewDatasetMenuItem))
             {
-                saveData();
-                MessageBox.Show("Save.", "Data has been backed up to hard disk.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                readDataset();
+            }
+
+            else if (clicked.Equals(FileNewSongMenuItem))
+            {
+
+                OpenFileDialog of = new OpenFileDialog();
+                of.Filter = "Sound Files (*.wav)|*.wav|(*.mp3)|*.mp3|(*.au)|*.au";
+                of.ShowDialog();
+                if (of.FileName != "")
+                {
+                    String dir = Path.GetDirectoryName(Directory.GetParent(Directory.GetParent(of.FileName).ToString()).ToString());
+                    Song song = new Song(Path.GetFileName(of.FileName), dir, of.FileName);
+                }
+            }
+            else if (clicked.Equals(FileNewFeatureMenuItem))
+            {
+
             }
         }
 
-       
 
-        public void loadData()
-        {
-            if (File.Exists("songObject.dat"))
-            {
-                FileStream file = new FileStream("songObject.dat", FileMode.Open);
-                BinaryFormatter bf = new BinaryFormatter();
-                try 
-                {
-                    List<Song> lst = (List<Song>)bf.Deserialize(file);
-                    lst = null;
-                }
-                catch (SerializationException e)
-                {
-                    Console.WriteLine("Failed to serialize. Reason: " + e.Message);
-                    throw;
-                }
-                finally
-                {
-                    file.Close();
-                }
-            }
-            else
-            {
-                readSongs();
-                readFeatures();
-            }
-        }
-
-        public void readSongs()
+        public void readDataset() 
         {
             FolderBrowserDialog browse = new FolderBrowserDialog();
             browse.ShowNewFolderButton = true;
@@ -103,6 +94,38 @@ namespace GenClass
             }
         }
 
+        public void loadData()
+        {
+            OpenFileDialog f = new OpenFileDialog();
+                f.Filter = "Data Files (*.dat|*.dat";
+                f.CheckFileExists = true;
+                f.ShowDialog();
+            if (f.FileName!="")
+            {
+                FileStream file = new FileStream(f.FileName, FileMode.Open);
+                BinaryFormatter bf = new BinaryFormatter();
+                try 
+                {
+                    List<Dataset> lst = (List<Dataset>)bf.Deserialize(file);
+                    lst = null;
+                }
+                catch (SerializationException e)
+                {
+                    Console.WriteLine("Failed to serialize. Reason: " + e.Message);
+                    throw;
+                }
+                finally
+                {
+                    file.Close();
+                }
+            }
+        }
+
+        public void readSongs()
+        {
+            
+        }
+
         public void readFeatures()
         {
             OpenFileDialog featureOpen = new OpenFileDialog();
@@ -117,24 +140,24 @@ namespace GenClass
             }
         }
 
-        public void parseXML(XmlNodeList datasets)
+        public void parseXML(XmlNodeList dataPoints)
         {
             String filename = "";
             String path = "";
-            Song song = null;
-            foreach (XmlNode node in datasets)
+            int dataset = -1;
+            int song = -1;            
+            foreach (XmlNode node in dataPoints)
             {
                 if (node.Name.Equals("data_set_id"))
                 {
                     filename = Path.GetFileName(node.Value);
                     path = Path.GetFullPath(node.Value);
-                    if (Song.songs.ContainsKey(filename))
+                    KeyValuePair<int,int> pair = Dataset.searchForSong(filename);
+                    dataset = pair.Key;
+                    song = pair.Value;
+                    if (dataset<0)
                     {
-                        song = Song.songs[filename];
-                    }
-                    else
-                    {
-                        song = new Song(filename, "none", path);
+                        
                     }
                 }
                 else if (node.Name.Equals("feature"))
@@ -146,7 +169,7 @@ namespace GenClass
                         if (attr.Name.Equals("name"))
                         {
                             feature = new Feature(attr.Value, filename);
-                            song.addFeature(feature);
+                            Dataset.DatasetList.ElementAt(dataset).Value.getSongList().ElementAt(song).Value.addFeature(feature);
                         }
                         else if (attr.Name.Equals("v"))
                         {
@@ -159,21 +182,26 @@ namespace GenClass
 
         public void saveData()
         {
-            FileStream file = new FileStream("songObject.dat", FileMode.OpenOrCreate);
-            BinaryFormatter bf = new BinaryFormatter();
-            try
+            String fn = Microsoft.VisualBasic.Interaction.InputBox("Please enter filename for saved data.", "Filename Creation", "SongObject_all");
+            if (fn != "")
             {
-                List<Song> lst = Song.toList();
-                bf.Serialize(file,lst);
-            }
-            catch (SerializationException e)
-            {
-                Console.WriteLine("Failed to serialize. Reason: " + e.Message);
-                throw;
-            }
-            finally
-            {
-                file.Close();
+                FileStream file = new FileStream(fn + ".dat", FileMode.OpenOrCreate);
+                BinaryFormatter bf = new BinaryFormatter();
+                try
+                {
+                    List<Dataset> lst = Dataset.toList();
+                    bf.Serialize(file, lst);
+                    MessageBox.Show("Save.", "Data has been backed up to hard disk.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                catch (SerializationException e)
+                {
+                    Console.WriteLine("Failed to serialize. Reason: " + e.Message);
+                    throw;
+                }
+                finally
+                {
+                    file.Close();
+                }
             }
         }
     }
