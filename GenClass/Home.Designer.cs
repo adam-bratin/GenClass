@@ -32,6 +32,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileNewDatasetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileNewSongMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileNewFeatureMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FileLoadDataMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.FileSaveDataMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,9 +61,6 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileNewDatasetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileNewFeatureMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileNewSongMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -104,6 +104,31 @@
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.newToolStripMenuItem.Text = "&New";
+            // 
+            // FileNewDatasetMenuItem
+            // 
+            this.FileNewDatasetMenuItem.Name = "FileNewDatasetMenuItem";
+            this.FileNewDatasetMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.FileNewDatasetMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.FileNewDatasetMenuItem.Text = "Add Dataset";
+            this.FileNewDatasetMenuItem.Click += new System.EventHandler(this.FileNewMenu_click);
+            // 
+            // FileNewSongMenuItem
+            // 
+            this.FileNewSongMenuItem.Name = "FileNewSongMenuItem";
+            this.FileNewSongMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.FileNewSongMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.FileNewSongMenuItem.Text = "Add Song";
+            this.FileNewSongMenuItem.Click += new System.EventHandler(this.FileNewMenu_click);
+            // 
+            // FileNewFeatureMenuItem
+            // 
+            this.FileNewFeatureMenuItem.Name = "FileNewFeatureMenuItem";
+            this.FileNewFeatureMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.FileNewFeatureMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.FileNewFeatureMenuItem.Text = "Add Feature";
+            this.FileNewFeatureMenuItem.Click += new System.EventHandler(this.FileNewMenu_click);
             // 
             // FileLoadDataMenuItem
             // 
@@ -248,13 +273,13 @@
             // customizeToolStripMenuItem
             // 
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.customizeToolStripMenuItem.Text = "&Customize";
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
             // 
             // helpToolStripMenuItem
@@ -272,56 +297,31 @@
             // contentsToolStripMenuItem
             // 
             this.contentsToolStripMenuItem.Name = "contentsToolStripMenuItem";
-            this.contentsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.contentsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.contentsToolStripMenuItem.Text = "&Contents";
             // 
             // indexToolStripMenuItem
             // 
             this.indexToolStripMenuItem.Name = "indexToolStripMenuItem";
-            this.indexToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.indexToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.indexToolStripMenuItem.Text = "&Index";
             // 
             // searchToolStripMenuItem
             // 
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.searchToolStripMenuItem.Text = "&Search";
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(119, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
-            // 
-            // FileNewDatasetMenuItem
-            // 
-            this.FileNewDatasetMenuItem.Name = "FileNewDatasetMenuItem";
-            this.FileNewDatasetMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.FileNewDatasetMenuItem.Size = new System.Drawing.Size(198, 22);
-            this.FileNewDatasetMenuItem.Text = "Add Dataset";
-            this.FileNewDatasetMenuItem.Click += new System.EventHandler(this.FileNewMenu_click);
-            // 
-            // FileNewFeatureMenuItem
-            // 
-            this.FileNewFeatureMenuItem.Name = "FileNewFeatureMenuItem";
-            this.FileNewFeatureMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.FileNewFeatureMenuItem.Size = new System.Drawing.Size(198, 22);
-            this.FileNewFeatureMenuItem.Text = "Add Feature";
-            this.FileNewFeatureMenuItem.Click += new System.EventHandler(this.FileNewMenu_click);
-            // 
-            // FileNewSongMenuItem
-            // 
-            this.FileNewSongMenuItem.Name = "FileNewSongMenuItem";
-            this.FileNewSongMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.S)));
-            this.FileNewSongMenuItem.Size = new System.Drawing.Size(198, 22);
-            this.FileNewSongMenuItem.Text = "Add Song";
-            this.FileNewSongMenuItem.Click += new System.EventHandler(this.FileNewMenu_click);
             // 
             // Home
             // 

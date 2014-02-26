@@ -11,7 +11,6 @@ using System.IO;
 using System.Xml;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Data;
 
 namespace GenClass
 {
@@ -62,12 +61,13 @@ namespace GenClass
             }
             else if (clicked.Equals(FileNewFeatureMenuItem))
             {
-
+                Add_Item_Popup popup = new Add_Item_Popup();
+                popup.ShowDialog();
             }
         }
 
 
-        public void readDataset() 
+        public static void readDataset() 
         {
             FolderBrowserDialog browse = new FolderBrowserDialog();
             browse.ShowNewFolderButton = true;
@@ -78,7 +78,7 @@ namespace GenClass
             }
         }
 
-        public void traverseDirectoryTree(String directory)
+        public static void traverseDirectoryTree(String directory)
         {
             foreach (String file in Directory.GetFiles(directory))
             {
@@ -94,7 +94,7 @@ namespace GenClass
             }
         }
 
-        public void loadData()
+        public static void loadData()
         {
             OpenFileDialog f = new OpenFileDialog();
                 f.Filter = "Data Files (*.dat|*.dat";
@@ -121,12 +121,12 @@ namespace GenClass
             }
         }
 
-        public void readSongs()
+        public static void readSongs()
         {
             
         }
 
-        public void readFeatures()
+        public static void readFeatures(String dataset)
         {
             OpenFileDialog featureOpen = new OpenFileDialog();
             featureOpen.DefaultExt = "XML|*.xml";
@@ -140,7 +140,7 @@ namespace GenClass
             }
         }
 
-        public void parseXML(XmlNodeList dataPoints)
+        public static void parseXML(XmlNodeList dataPoints)
         {
             String filename = "";
             String path = "";
@@ -180,7 +180,7 @@ namespace GenClass
             }
         }
 
-        public void saveData()
+        public static void saveData()
         {
             String fn = Microsoft.VisualBasic.Interaction.InputBox("Please enter filename for saved data.", "Filename Creation", "SongObject_all");
             if (fn != "")
